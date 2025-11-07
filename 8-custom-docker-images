@@ -1,0 +1,27 @@
+mkdir -p ~/project/docker
+cd ~/project/docker
+touch Dockerfile #Docker file
+  FROM nginx
+  COPY index.html /usr/share/nginx/html/
+  
+touch index.html  
+
+    <!doctype html>
+    <html lang="en">
+    <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hello Docker!</title>
+    </head>
+    <body>
+    <h1>Hello Docker!</h1>
+    <p>This is a custom Docker image.</p>
+    </body>
+    </html>
+    
+docker build -t my-nginx . #docker image creation
+docker images  #list images
+
+
+docker run -d -p 8080:80 --name my-nginx-container my-nginx # docker create cotainer 
+  
