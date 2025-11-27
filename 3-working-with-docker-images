@@ -1,1 +1,45 @@
+1. Pulling images from docker hub
+  docker pull nginx
+  docker images
 
+2. Running Different Versions of an Image
+    docker pull python
+    docker pull python:3.7
+    docker images python
+    docker run --rm python:latest python --version  ## --rm tells Docker to remove the container after it exits
+    docker run python:3.7 python --version
+
+3. Listing and Removing Images
+    docker images
+    docker rmi python:3.7
+    docker ps -a
+    docker rm <container_id>
+    docker rmi python:3.7
+    docker images python
+
+4. docker images python
+    docker inspect --format='{{.RootFS.Layers}}' nginx
+    nano Dockerfile
+        FROM nginx
+        RUN echo "Hello from custom layer" > /usr/share/nginx/html/hello.html
+
+  docker build -t custom-nginx .
+  docker inspect --format='{{.RootFS.Layers}}' custom-nginx
+
+5. docker inspect --format='{{.RootFS.Layers}}' custom-nginx
+    docker search nginx  
+    docker search python:3.8
+
+6. docker search python:3.8
+    docker save nginx > nginx.tar
+    docker rmi nginx
+    docker images nginx
+    docker load < nginx.tar
+    docker images nginx
+
+7. Image Tagging
+    docker tag nginx:latest my-nginx:v1
+    docker images
+    docker run -d --name my-nginx-container my-nginx:v1
+    
+    
