@@ -1,0 +1,3 @@
+Task: Run a Container and Make It Speak
+  docker run docker/whalesay cowsay "Ahoy Docker"
+
