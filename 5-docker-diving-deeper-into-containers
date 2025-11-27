@@ -1,0 +1,58 @@
+1 - Running Containers in Different Modes
+    docker run -d --name nginx-detached nginx # detached mode
+    docker ps
+    docker run -it --name ubuntu-interactive ubuntu /bin/bash # interactive terminal
+    docker ps
+
+2 - docker run -it --name ubuntu-interactive ubuntu /bin/bash
+    docker stop nginx-detached
+    docker ps -a
+    docker start nginx-detached
+    docker ps
+    docker restart nginx-detached
+    docker ps -a
+    docker rm ubuntu-interactive
+    docker ps -a
+
+3 - Inspecting Container Details
+      docker inspect nginx-detached
+      docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' nginx-detached
+      docker inspect -f '{{.State.Status}}' nginx-detached
+      docker port nginx-detached
+      docker run -d --name nginx-with-port -p 8080:80 nginx
+      docker port nginx-with-port
+
+4 - Working with Container Logs
+    docker logs nginx-detached
+    docker logs --tail 10 nginx-detached
+    docker logs -f nginx-detached
+    docker logs --timestamps nginx-detached
+
+6 - Executing Commands in Running Containers
+      docker exec nginx-detached echo "Hello from inside the container"
+      docker exec -it nginx-detached /bin/bash
+
+7 - Copying Files To and From Containers
+    echo "<html><body><h1>Hello from host</h1></body></html>" > hello.html
+    docker cp hello.html nginx-detached:/usr/share/nginx/html/hello.html
+    docker exec nginx-detached cat /usr/share/nginx/html/hello.html
+    docker cp nginx-detached:/etc/nginx/nginx.conf ~/project/nginx.conf
+    ls -l ~/project/nginx.conf
+
+8- Setting Environment Variables in Containers
+    docker run --name env-test -e MY_VAR="Hello, Environment" -d ubuntu sleep infinity
+    docker exec env-test env | grep MY_VAR
+    nano env_file
+              ANOTHER_VAR=From a file
+              YET_ANOTHER_VAR=Also from the file
+    docker run --name env-file-test --env-file env_file -d ubuntu sleep infinity
+    docker exec env-file-test env | grep -E "ANOTHER_VAR|YET_ANOTHER_VAR"
+
+9 - Limiting Container Resources
+    docker run --name limited-nginx -d --memory=512m --cpus=0.5 nginx # MEMORY TO 512MB AND CPU TO .5 CORE
+    docker inspect -f '{{.HostConfig.Memory}}' limited-nginx
+    docker inspect -f '{{.HostConfig.NanoCpus}}' limited-nginx
+    docker stats limited-nginx # real time resource usage
+    
+       
+    
