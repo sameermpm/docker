@@ -1,0 +1,5 @@
+Task - Run a Docker container based on the docker/getting-started image.
+
+  docker run docker/getting-started
+  docker ps
+  docker images
