@@ -1,0 +1,14 @@
+Tasks
+
+Start a container named my-container, based on the nginx image.
+  docker run -d --name my-container nginx
+View the logs of the my-container container.
+  docker logs my-container
+Stop the container named my-container.
+  docker stop my-container
+Start a container named my-shell-container, based on the ubuntu image. The container should remain running in the background.
+  docker run -d --name my-shell-container ubuntu sleep infinity
+  docker exec my-shell-container echo "Hello Worold"
+Stop and remove the container named my-shell-container.
+  docker stop my-shell-container
+  docker rm my-shell-container
