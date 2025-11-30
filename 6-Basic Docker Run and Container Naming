@@ -15,4 +15,25 @@
 4 - Environment Variables
     docker run -d --name nginx-env -e NGINX_HOST=mywebsite.com -e NGINX_PORT=80 nginx
     docker exec nginx-env env | grep NGINX_
-    
+
+5 - Resource Constraints
+    docker run -d --name nginx-limited --memory 256m --cpus 0.5 nginx
+    docker inspect -f '{{.HostConfig.Memory}}' nginx-limited
+    docker inspect -f '{{.HostConfig.NanoCpus}}' nginx-limited
+
+6 - Network Settings
+    docker network create my-custom-network
+    docker run -d --name nginx-networked --network my-custom-network nginx
+
+7 - Restart Policies
+    docker run -d --name nginx-restart --restart unless-stopped nginx
+        Other restart policies include:
+
+        no: The default. Don't automatically restart the container.
+        on-failure: Restart only if the container exits with a non-zero status.
+        always: Always restart the container regardless of the exit status.
+
+8 - Working Directory and Command
+    docker run -d --name nginx-custom -w /app nginx sh -c "mkdir -p /app && touch newfile.txt && nginx -g 'daemon off;'"
+    docker ps | grep nginx-custom
+    docker exec nginx-custom ls -l /app/newfile.txt
