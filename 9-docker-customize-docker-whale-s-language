@@ -1,0 +1,35 @@
+Tasks
+Your linguistic mission, should you choose to accept it, is to:
+
+Examine the provided entrypoint.sh script to understand how it handles different languages.
+Modify the Dockerfile to incorporate the entrypoint.sh script and set up environment variables.
+Build a Docker image from your completed Dockerfile.
+Run containers from your image, experimenting with different language settings.
+
+#Dockerfile
+FROM docker/whalesay
+
+# TODO: Set default environment variable here
+ENV WHALE_LANGUAGE English
+# TODO: Copy entrypoint script and set permissions
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+# Set the entrypoint
+# entrypoint is the script that will be executed when the container starts
+ENTRYPOINT ["/entrypoint.sh"]
+
+#entrypoint.sh
+#!/bin/sh
+
+if [ "$WHALE_LANGUAGE" = "Spanish" ]; then
+    cowsay "¡Hola!"
+else
+    cowsay "Hello!"
+fi
+
+##command
+docker build -t polyglot-whale .
+docker images
+docker run polyglot-whale
+docker run -e WHALE_LANGUAGE=Spanish polyglot-whale
+
